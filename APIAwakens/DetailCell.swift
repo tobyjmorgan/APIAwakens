@@ -10,6 +10,25 @@ import UIKit
 
 class DetailCell: UITableViewCell {
 
+    @IBOutlet var descriptorLabel: UILabel!
+    @IBOutlet var valueLabel: UILabel!
+    @IBOutlet var toggleButtonView: UIView!
+    @IBOutlet var leftToggleButton: UIButton!
+    @IBOutlet var rightToggleButton: UIButton!
+    
+    @IBAction func onToggle(_ sender: AnyObject) {
+        
+        if let button = sender as? UIButton {
+            if button == leftToggleButton {
+                leftToggleButton.setTitleColor(.white, for: .normal)
+                rightToggleButton.setTitleColor(.gray, for: .normal)
+            } else if button == rightToggleButton {
+                leftToggleButton.setTitleColor(.gray, for: .normal)
+                rightToggleButton.setTitleColor(.white, for: .normal)
+            }
+        }
+    }
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
