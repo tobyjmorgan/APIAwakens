@@ -8,11 +8,20 @@
 
 import UIKit
 
-class DetailViewController: UIViewController {
+class DetailViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UIPickerViewDataSource, UIPickerViewDelegate {
 
     @IBOutlet weak var detailDescriptionLabel: UILabel!
 
+    @IBOutlet var smallestLabel: UILabel!
+    @IBOutlet var largestLabel: UILabel!
 
+    @IBOutlet var smallestNameLabel: UILabel!
+    @IBOutlet var largestNameLabel: UILabel!
+    
+    @IBOutlet var picker: UIPickerView!
+    @IBOutlet var tableView: UITableView!
+    @IBOutlet var mainNameLabel: UILabel!
+    
     func configureView() {
         // Update the user interface for the detail item.
         if let detail = self.detailItem {
@@ -50,6 +59,22 @@ class DetailViewController: UIViewController {
             // Update the view.
             self.configureView()
         }
+    }
+    
+    // MARK: UITableViewDataSource
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 1
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "DetailCell", for: indexPath) as! DetailCell
+                
+        return cell
     }
 
 
