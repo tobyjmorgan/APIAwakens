@@ -7,14 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6B256DC41DF338BD00DA68B0 /* EntityContextCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B256DC31DF338BD00DA68B0 /* EntityContextCell.swift */; };
 		6B39F1481DF333FD00150396 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B39F1471DF333FD00150396 /* AppDelegate.swift */; };
-		6B39F14A1DF333FD00150396 /* MasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B39F1491DF333FD00150396 /* MasterViewController.swift */; };
+		6B39F14A1DF333FD00150396 /* EntityContextListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B39F1491DF333FD00150396 /* EntityContextListController.swift */; };
 		6B39F14C1DF333FD00150396 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B39F14B1DF333FD00150396 /* DetailViewController.swift */; };
 		6B39F14F1DF333FD00150396 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6B39F14D1DF333FD00150396 /* Main.storyboard */; };
 		6B39F1511DF333FD00150396 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6B39F1501DF333FD00150396 /* Assets.xcassets */; };
 		6B39F1541DF333FD00150396 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6B39F1521DF333FD00150396 /* LaunchScreen.storyboard */; };
 		6B39F15F1DF333FD00150396 /* APIAwakensTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B39F15E1DF333FD00150396 /* APIAwakensTests.swift */; };
 		6B39F16A1DF333FD00150396 /* APIAwakensUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B39F1691DF333FD00150396 /* APIAwakensUITests.swift */; };
+		6B39F1791DF3346A00150396 /* EntityContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B39F1781DF3346A00150396 /* EntityContext.swift */; };
+		6B39F17C1DF3357400150396 /* HasAssociatedIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B39F17B1DF3357400150396 /* HasAssociatedIcon.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -35,9 +38,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		6B256DC31DF338BD00DA68B0 /* EntityContextCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityContextCell.swift; sourceTree = "<group>"; };
 		6B39F1441DF333FD00150396 /* APIAwakens.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = APIAwakens.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6B39F1471DF333FD00150396 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		6B39F1491DF333FD00150396 /* MasterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterViewController.swift; sourceTree = "<group>"; };
+		6B39F1491DF333FD00150396 /* EntityContextListController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityContextListController.swift; sourceTree = "<group>"; };
 		6B39F14B1DF333FD00150396 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		6B39F14E1DF333FD00150396 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		6B39F1501DF333FD00150396 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -49,6 +53,8 @@
 		6B39F1651DF333FD00150396 /* APIAwakensUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = APIAwakensUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6B39F1691DF333FD00150396 /* APIAwakensUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIAwakensUITests.swift; sourceTree = "<group>"; };
 		6B39F16B1DF333FD00150396 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6B39F1781DF3346A00150396 /* EntityContext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityContext.swift; sourceTree = "<group>"; };
+		6B39F17B1DF3357400150396 /* HasAssociatedIcon.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HasAssociatedIcon.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,8 +105,10 @@
 		6B39F1461DF333FD00150396 /* APIAwakens */ = {
 			isa = PBXGroup;
 			children = (
+				6B39F1771DF3345200150396 /* Model */,
 				6B39F1471DF333FD00150396 /* AppDelegate.swift */,
-				6B39F1491DF333FD00150396 /* MasterViewController.swift */,
+				6B39F1491DF333FD00150396 /* EntityContextListController.swift */,
+				6B256DC31DF338BD00DA68B0 /* EntityContextCell.swift */,
 				6B39F14B1DF333FD00150396 /* DetailViewController.swift */,
 				6B39F14D1DF333FD00150396 /* Main.storyboard */,
 				6B39F1501DF333FD00150396 /* Assets.xcassets */,
@@ -126,6 +134,23 @@
 				6B39F16B1DF333FD00150396 /* Info.plist */,
 			);
 			path = APIAwakensUITests;
+			sourceTree = "<group>";
+		};
+		6B39F1771DF3345200150396 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				6B39F17A1DF3355F00150396 /* Protocols */,
+				6B39F1781DF3346A00150396 /* EntityContext.swift */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		6B39F17A1DF3355F00150396 /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				6B39F17B1DF3357400150396 /* HasAssociatedIcon.swift */,
+			);
+			name = Protocols;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -265,9 +290,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6B256DC41DF338BD00DA68B0 /* EntityContextCell.swift in Sources */,
+				6B39F1791DF3346A00150396 /* EntityContext.swift in Sources */,
 				6B39F14C1DF333FD00150396 /* DetailViewController.swift in Sources */,
-				6B39F14A1DF333FD00150396 /* MasterViewController.swift in Sources */,
+				6B39F14A1DF333FD00150396 /* EntityContextListController.swift in Sources */,
 				6B39F1481DF333FD00150396 /* AppDelegate.swift in Sources */,
+				6B39F17C1DF3357400150396 /* HasAssociatedIcon.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -518,6 +546,7 @@
 				6B39F1701DF333FD00150396 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		6B39F1711DF333FD00150396 /* Build configuration list for PBXNativeTarget "APIAwakensTests" */ = {
 			isa = XCConfigurationList;
@@ -526,6 +555,7 @@
 				6B39F1731DF333FD00150396 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		6B39F1741DF333FD00150396 /* Build configuration list for PBXNativeTarget "APIAwakensUITests" */ = {
 			isa = XCConfigurationList;
@@ -534,6 +564,7 @@
 				6B39F1761DF333FD00150396 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
