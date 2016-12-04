@@ -31,17 +31,12 @@ enum APIResult<T> {
 protocol APIUseCase {
     var baseURL: String { get }
     var path: String { get }
-    var id: Int? { get }
 }
 
 extension APIUseCase {
     var request: URLRequest {
         var components = URLComponents(string: baseURL)!
         components.path = path
-        
-        if let id = id {
-            components.path += "/\(id)"
-        }        
         
         let url = components.url!
         return URLRequest(url: url)

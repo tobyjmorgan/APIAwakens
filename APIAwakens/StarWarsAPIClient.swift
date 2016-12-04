@@ -15,49 +15,50 @@ typealias PlanetID = Int
 typealias SWAPIURLString = String
 
 enum StarWarsAPIUseCase {
-    case allPeople
-    case allVehicles
-    case allStarships
-    case allPlanets
-    case person(PersonID)
-    case vehicle(VehicleID)
-    case starship(StarshipID)
-    case planet(PlanetID)
+    case people(PersonID?)
+    case vehicles(VehicleID?)
+    case starships(StarshipID?)
+    case planets(PlanetID?)
 //    case manual(SWAPIURLString)
 }
 
 extension StarWarsAPIUseCase: APIUseCase {
-    var baseURL: URL {
-        return URL(string: "https://swapi.co/api/")!
+    var baseURL: String {
+        return "https://swapi.co/api/"
     }
     
     var path: String {
 
         switch self {
 
-        case .allPeople:
+        case .people(let id):
+            if let id = id {
+                return "people/\(id)/"
+            }
+            
             return "people/"
             
-        case .allVehicles:
+        case .vehicles(let id):
+            if let id = id {
+                return "vehicles/\(id)/"
+            }
+            
             return "vehicles/"
             
-        case .allStarships:
+        case .starships(let id):
+            if let id = id {
+                return "starships/\(id)/"
+            }
+            
             return "starships/"
             
-        case .allPlanets:
+        case .planets(let id):
+            if let id = id {
+                return "planets/\(id)/"
+            }
+            
             return "planets/"
             
-        case .person(let id):
-            return "people/\(id)/"
-            
-        case .vehicle(let id):
-            return "vehicles/\(id)/"
-            
-        case .starship(let id):
-            return "starships/\(id)/"
-            
-        case .planet(let id):
-            return "planets/\(id)"
         }
     }
 }
