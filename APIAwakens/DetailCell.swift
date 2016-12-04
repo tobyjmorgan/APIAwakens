@@ -20,14 +20,15 @@ class DetailCell: UITableViewCell {
         
         if let button = sender as? UIButton {
             if button == leftToggleButton {
-                leftToggleButton.setTitleColor(.white, for: .normal)
-                rightToggleButton.setTitleColor(.gray, for: .normal)
+                highlightLeft()
             } else if button == rightToggleButton {
-                leftToggleButton.setTitleColor(.gray, for: .normal)
-                rightToggleButton.setTitleColor(.white, for: .normal)
+                highlightRight()
             }
         }
     }
+    
+    var valueWhenToggleIsLeft: String?
+    var valueWhenToggleIsRight: String?
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -38,6 +39,23 @@ class DetailCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
 
         // Configure the view for the selected state
+    }
+    
+    func highlightLeft() {
+        leftToggleButton.setTitleColor(.white, for: .normal)
+        rightToggleButton.setTitleColor(.gray, for: .normal)
+        
+        if let newValue = valueWhenToggleIsLeft {
+            valueLabel.text = newValue
+        }
+    }
+    
+    func highlightRight() {
+        leftToggleButton.setTitleColor(.gray, for: .normal)
+        rightToggleButton.setTitleColor(.white, for: .normal)
+        if let newValue = valueWhenToggleIsRight {
+            valueLabel.text = newValue
+        }
     }
 
 }

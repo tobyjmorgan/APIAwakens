@@ -19,6 +19,9 @@
 		6B39F1791DF3346A00150396 /* EntityContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B39F1781DF3346A00150396 /* EntityContext.swift */; };
 		6B39F17C1DF3357400150396 /* HasAssociatedIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B39F17B1DF3357400150396 /* HasAssociatedIcon.swift */; };
 		6BA2BD0E1DF352D200C41443 /* DetailCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA2BD0D1DF352D200C41443 /* DetailCell.swift */; };
+		6BA2BD101DF36A8B00C41443 /* ContentKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA2BD0F1DF36A8B00C41443 /* ContentKey.swift */; };
+		6BA2BD121DF376E900C41443 /* DetailViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA2BD111DF376E900C41443 /* DetailViewControllerDelegate.swift */; };
+		6BA2BD141DF3773600C41443 /* MasterModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA2BD131DF3773600C41443 /* MasterModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,6 +60,9 @@
 		6B39F1781DF3346A00150396 /* EntityContext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityContext.swift; sourceTree = "<group>"; };
 		6B39F17B1DF3357400150396 /* HasAssociatedIcon.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HasAssociatedIcon.swift; sourceTree = "<group>"; };
 		6BA2BD0D1DF352D200C41443 /* DetailCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailCell.swift; sourceTree = "<group>"; };
+		6BA2BD0F1DF36A8B00C41443 /* ContentKey.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentKey.swift; sourceTree = "<group>"; };
+		6BA2BD111DF376E900C41443 /* DetailViewControllerDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewControllerDelegate.swift; sourceTree = "<group>"; };
+		6BA2BD131DF3773600C41443 /* MasterModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MasterModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -111,6 +117,7 @@
 				6B39F1471DF333FD00150396 /* AppDelegate.swift */,
 				6B39F1491DF333FD00150396 /* EntityContextListController.swift */,
 				6B256DC31DF338BD00DA68B0 /* EntityContextCell.swift */,
+				6BA2BD111DF376E900C41443 /* DetailViewControllerDelegate.swift */,
 				6B39F14B1DF333FD00150396 /* DetailViewController.swift */,
 				6BA2BD0D1DF352D200C41443 /* DetailCell.swift */,
 				6B39F14D1DF333FD00150396 /* Main.storyboard */,
@@ -144,6 +151,8 @@
 			children = (
 				6B39F17A1DF3355F00150396 /* Protocols */,
 				6B39F1781DF3346A00150396 /* EntityContext.swift */,
+				6BA2BD0F1DF36A8B00C41443 /* ContentKey.swift */,
+				6BA2BD131DF3773600C41443 /* MasterModel.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -294,12 +303,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				6B256DC41DF338BD00DA68B0 /* EntityContextCell.swift in Sources */,
+				6BA2BD141DF3773600C41443 /* MasterModel.swift in Sources */,
 				6B39F1791DF3346A00150396 /* EntityContext.swift in Sources */,
 				6B39F14C1DF333FD00150396 /* DetailViewController.swift in Sources */,
+				6BA2BD121DF376E900C41443 /* DetailViewControllerDelegate.swift in Sources */,
 				6B39F14A1DF333FD00150396 /* EntityContextListController.swift in Sources */,
 				6B39F1481DF333FD00150396 /* AppDelegate.swift in Sources */,
 				6BA2BD0E1DF352D200C41443 /* DetailCell.swift in Sources */,
 				6B39F17C1DF3357400150396 /* HasAssociatedIcon.swift in Sources */,
+				6BA2BD101DF36A8B00C41443 /* ContentKey.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -457,6 +469,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.redBred.APIAwakens;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -470,6 +483,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.redBred.APIAwakens;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

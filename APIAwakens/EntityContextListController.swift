@@ -8,8 +8,10 @@
 
 import UIKit
 
-class EntityContextListController: UITableViewController {
+class EntityContextListController: UITableViewController, DetailViewControllerDelegate {
 
+    var model = MasterModel()
+    
     var detailViewController: DetailViewController? = nil
 
     override func viewDidLoad() {
@@ -35,13 +37,19 @@ class EntityContextListController: UITableViewController {
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "showDetail" {
-            if let indexPath = self.tableView.indexPathForSelectedRow {
-//                let object = objects[indexPath.row] as! NSDate
-//                let controller = (segue.destination as! UINavigationController).topViewController as! DetailViewController
-//                controller.detailItem = object
-//                controller.navigationItem.leftBarButtonItem = self.splitViewController?.displayModeButtonItem
-//                controller.navigationItem.leftItemsSupplementBackButton = true
+            
+            guard let indexPath = self.tableView.indexPathForSelectedRow,
+                let entityContext = EntityContext(rawValue: indexPath.row) else {
+                return
             }
+            
+            model.currentEntityContext = entityContext
+            
+            let controller = (segue.destination as! UINavigationController).topViewController as! DetailViewController
+            controller.detailDelegate = self
+            controller.navigationItem.title = entityContext.description
+            controller.navigationItem.leftBarButtonItem = self.splitViewController?.displayModeButtonItem
+            controller.navigationItem.leftItemsSupplementBackButton = true
         }
     }
 
@@ -61,10 +69,20 @@ class EntityContextListController: UITableViewController {
         let entityContext = EntityContext(rawValue: indexPath.row)
         cell.icon.image = entityContext?.icon
         cell.titleLabel.text = entityContext?.description
+        cell.titleLabel.tintColor = .gray
 
         return cell
     }
 
+    // MARK: DetailViewControllerDelegate
+    
+    var currentEntityContext: EntityContext? {
+        return model.currentEntityContext
+    }
+    
+    func onDetailWillDismiss() {
+        model.currentEntityContext = nil
+    }
 
 }
 

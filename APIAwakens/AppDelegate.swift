@@ -28,7 +28,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
         UINavigationBar.appearance().backgroundColor = UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 0.0)
         // Set translucent. (Default value is already true, so this can be removed if desired.)
         UINavigationBar.appearance().isTranslucent = true
-        
+        // Set font color of navigation bar
+        UINavigationBar.appearance().tintColor = .gray
         
         
         // Override point for customization after application launch.
