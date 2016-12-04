@@ -29,14 +29,21 @@ enum APIResult<T> {
 }
 
 protocol APIUseCase {
-    var baseURL: URL { get }
+    var baseURL: String { get }
     var path: String { get }
-    func buildURLRequest() -> URLRequest
+    var id: Int? { get }
 }
 
 extension APIUseCase {
-    func buildURLRequest() -> URLRequest {
-        let url = URL(string: path, relativeTo: baseURL)!
+    var request: URLRequest {
+        var components = URLComponents(string: baseURL)!
+        components.path = path
+        
+        if let id = id {
+            components.path += "/\(id)"
+        }        
+        
+        let url = components.url!
         return URLRequest(url: url)
     }
 }
