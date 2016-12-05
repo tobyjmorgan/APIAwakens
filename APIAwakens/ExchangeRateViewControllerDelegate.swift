@@ -8,6 +8,7 @@
 
 import Foundation
 
+// a delegate for anyone calling the ExchangeRateViewController to conform to
 protocol ExchangeRateViewControllerDelegate {
     func onDismissExchangeRateVC()
 }

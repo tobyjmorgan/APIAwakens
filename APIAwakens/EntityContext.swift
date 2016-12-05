@@ -8,16 +8,19 @@
 
 import Foundation
 
+// the different categories of entity we are viewing
 enum EntityContext: Int {
     case characters
     case vehicles
     case starships
 }
 
+// all values extension, we will use this to populate our table view driven menu
 extension EntityContext {
     static var allValues: [EntityContext] = [.characters, .vehicles, .starships]
 }
 
+// descriptions
 extension EntityContext: CustomStringConvertible {
     var description: String {
         switch self {
@@ -31,16 +34,4 @@ extension EntityContext: CustomStringConvertible {
     }
 }
 
-extension EntityContext {
-    var useCase: StarWarsAPIUseCase {
-        switch self {
-        case .characters:
-            return .people(nil)
-        case .vehicles:
-            return .vehicles(nil)
-        case .starships:
-            return .starships(nil)
-        }
-    }
-}
 

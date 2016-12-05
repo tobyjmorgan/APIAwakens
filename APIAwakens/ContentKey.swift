@@ -8,6 +8,7 @@
 
 import Foundation
 
+// all the JSON keys we will be using in the SWAPI
 enum ContentKey: String {
     case birth_year
     case eye_color
@@ -22,9 +23,12 @@ enum ContentKey: String {
     case vehicle_class
     case starship_class
     
+    // this is a special case - not actually a JSON key, but will
+    // be used for the derived attribute: asscoiated vehicles and starships
     case associatedVehicles
 }
 
+// descriptions (will appear in our DetailViewController's table view)
 extension ContentKey: CustomStringConvertible {
     var description: String {
         switch self {
@@ -56,6 +60,7 @@ extension ContentKey: CustomStringConvertible {
     }
 }
 
+// the content keys associated with each entity context
 extension EntityContext {
     var associatedKeys: [ContentKey] {
         switch self {

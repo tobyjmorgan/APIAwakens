@@ -32,6 +32,7 @@
 		6BA2BD641DF5187700C41443 /* ExchangeRateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA2BD631DF5187700C41443 /* ExchangeRateViewController.swift */; };
 		6BA2BD661DF5188E00C41443 /* ExchangeRateViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA2BD651DF5188E00C41443 /* ExchangeRateViewControllerDelegate.swift */; };
 		6BA2BD681DF526D500C41443 /* Alert.wav in Resources */ = {isa = PBXBuildFile; fileRef = 6BA2BD671DF526D500C41443 /* Alert.wav */; };
+		6BA2BD6A1DF5D06C00C41443 /* StarWarsAPIUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA2BD691DF5D06C00C41443 /* StarWarsAPIUseCase.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -83,6 +84,7 @@
 		6BA2BD631DF5187700C41443 /* ExchangeRateViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExchangeRateViewController.swift; sourceTree = "<group>"; };
 		6BA2BD651DF5188E00C41443 /* ExchangeRateViewControllerDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExchangeRateViewControllerDelegate.swift; sourceTree = "<group>"; };
 		6BA2BD671DF526D500C41443 /* Alert.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Alert.wav; sourceTree = "<group>"; };
+		6BA2BD691DF5D06C00C41443 /* StarWarsAPIUseCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StarWarsAPIUseCase.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -194,6 +196,7 @@
 			children = (
 				6BA2BD521DF3DB0800C41443 /* APIClient.swift */,
 				6BA2BD541DF3DB1D00C41443 /* StarWarsAPIClient.swift */,
+				6BA2BD691DF5D06C00C41443 /* StarWarsAPIUseCase.swift */,
 			);
 			name = Networking;
 			sourceTree = "<group>";
@@ -362,6 +365,7 @@
 				6B39F14C1DF333FD00150396 /* DetailViewController.swift in Sources */,
 				6BA2BD121DF376E900C41443 /* DetailViewControllerDelegate.swift in Sources */,
 				6BA2BD531DF3DB0800C41443 /* APIClient.swift in Sources */,
+				6BA2BD6A1DF5D06C00C41443 /* StarWarsAPIUseCase.swift in Sources */,
 				6B39F14A1DF333FD00150396 /* EntityContextListController.swift in Sources */,
 				6B39F1481DF333FD00150396 /* AppDelegate.swift in Sources */,
 				6BA2BD661DF5188E00C41443 /* ExchangeRateViewControllerDelegate.swift in Sources */,

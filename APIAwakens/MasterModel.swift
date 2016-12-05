@@ -8,7 +8,7 @@
 
 import Foundation
 
+// very simple model!
 struct MasterModel {
     var currentEntityContext: EntityContext? = nil
-    var exchangeRate: Double = 12.0
 }

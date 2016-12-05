@@ -8,6 +8,7 @@
 
 import Foundation
 
+// a delegate for anyone calling the DetailViewController to conform to
 protocol DetailViewControllerDelegate {
     var currentEntityContext: EntityContext? { get }
 }

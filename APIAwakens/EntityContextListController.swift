@@ -35,6 +35,7 @@ class EntityContextListController: UITableViewController, DetailViewControllerDe
         // Dispose of any resources that can be recreated.
     }
 
+    // handle errors by displaying an appropriate message
     func handleError(error: Error) {
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: SoundManager.Notifications.notificationPlayAlertSound.rawValue), object: nil)
         
@@ -76,7 +77,10 @@ class EntityContextListController: UITableViewController, DetailViewControllerDe
                 return
             }
             
+            // set the current context
             model.currentEntityContext = entityContext
+            
+            // play a fun sound!
             entityContext.playSound()
             
             let controller = (segue.destination as! UINavigationController).topViewController as! DetailViewController
@@ -85,6 +89,7 @@ class EntityContextListController: UITableViewController, DetailViewControllerDe
             controller.navigationItem.leftBarButtonItem = self.splitViewController?.displayModeButtonItem
             controller.navigationItem.leftItemsSupplementBackButton = true
 
+            // fetch the results we want based on the entity context's associated use case
             let useCase = entityContext.useCase
             networkClient.fetch(request: useCase.request, parse: useCase.getParser()) { result in
                 
@@ -94,6 +99,7 @@ class EntityContextListController: UITableViewController, DetailViewControllerDe
         }
     }
     
+    // this method allows us to fetch subsequent pages
     func handleResults(for controller: DetailViewController, result: APIResult<ResultsPage>) {
         
         switch result {
@@ -107,8 +113,8 @@ class EntityContextListController: UITableViewController, DetailViewControllerDe
             // try to get additional results
             if let nextPage = resultsPage.nextPageURLString {
                 
-                let maualUseCase = StarWarsAPIUseCase.manual(nextPage)
-                networkClient.fetch(request: maualUseCase.request, parse: maualUseCase.getParser()) { result in
+                let useCase = StarWarsAPIUseCase.nextPage(nextPage)
+                networkClient.fetch(request: useCase.request, parse: useCase.getParser()) { result in
                     
                     self.handleResults(for: controller, result: result)
                 }
@@ -120,6 +126,9 @@ class EntityContextListController: UITableViewController, DetailViewControllerDe
 
     // MARK: - Table View
 
+    // N.B. made the menu a data driven table view, so additional entities
+    // could be added easily in the future
+    
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }

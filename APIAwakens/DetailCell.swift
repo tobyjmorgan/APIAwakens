@@ -18,6 +18,7 @@ class DetailCell: UITableViewCell {
     
     @IBAction func onToggle(_ sender: AnyObject) {
         
+        // switch the display value and highlighting accordingly
         if let button = sender as? UIButton {
             if button == leftToggleButton {
                 highlightLeft()
@@ -40,6 +41,8 @@ class DetailCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
+    
+    // toggle buttons if this data field has one)
     
     func highlightLeft() {
         leftToggleButton.setTitleColor(.white, for: .normal)

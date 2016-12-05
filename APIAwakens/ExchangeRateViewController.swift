@@ -14,16 +14,23 @@ class ExchangeRateViewController: UIViewController {
     
     @IBAction func onDone() {
         
+        // check it is a good value
         if let rateAsString = exchangeRate.text,
             let rate = Double(rateAsString),
             rate > 0.0 {
             
+            // using UserDefaults here since this value applies to the whole app
+            // seems to make sense here
             let defaults = UserDefaults.standard
             defaults.set(rate, forKey: DefaultKeys.exchangeRate)
+            defaults.synchronize()
+            
+            // ask the delegate to dismiss
             delegate?.onDismissExchangeRateVC()
 
         } else {
         
+            // bummer bad value
             showAlert()
         }
     }
@@ -39,6 +46,7 @@ class ExchangeRateViewController: UIViewController {
         exchangeRate.text = "\(defaults.double(forKey: DefaultKeys.exchangeRate))"
     }
 
+    // toggling the appearance of the navigation bar
     // Thanks to Michael Garito on StackOverflow for this
     // http://stackoverflow.com/questions/29209453/how-to-hide-a-navigation-bar-from-first-viewcontroller-in-swift
     override func viewWillAppear(_ animated: Bool) {

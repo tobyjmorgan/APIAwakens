@@ -8,6 +8,7 @@
 
 import UIKit
 
+// quick extension to convert meters to inches
 extension Double {
     var metersToInches: Int {
         return Int(self*39.3701)
@@ -17,6 +18,7 @@ extension Double {
 typealias Feet = Int
 typealias Inches = Int
 
+// quick extension to convert inches to feet and inches by way of a tuple :-)
 extension Int {
     var inchesToFeetAndInches: (Feet, Inches) {
         let feet = Int(self / 12)
@@ -39,39 +41,47 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
     @IBOutlet var mainNameLabel: UILabel!
     @IBOutlet var activityIndicator: UIActivityIndicatorView!
     
-    func configureView() {
-    }
-    
-    let defaults = UserDefaults.standard
     var detailItem: NSDate?
     var detailDelegate: DetailViewControllerDelegate?
+
+    // for fetching the exchange rate
+    let defaults = UserDefaults.standard
     
+    // for executing look ups
     let client = StarWarsAPIClient()
     
+    // this is the landing spot where all the results from external
+    // fetch requests gets placed
     var content: [ [ String : AnyObject ] ] = []
     {
         didSet {
+            
+            // turn off the inactivity indicator if it is running
             if activityIndicator.isAnimating {
                 
                 activityIndicator.stopAnimating()
                 activityIndicator.isHidden = true
             }
 
+            // if this is the first call to didSet refresh everything
             if oldValue.count == 0 {
                 
                 refreshEverything()
                 
             } else {
                 
+                // subsequent calls are just adding additional data from background
+                // page loads, so only update the picker and the lowest/highest
                 picker.reloadAllComponents()
                 updateLowestAndHighest()
             }
         }
     }
     
+    // refresh all gui components
     func refreshEverything() {
         
-        setNameInitialValue()
+        mainNameLabel.text = getNameFromContent(row: 0)
         picker.reloadAllComponents()
         tableView.reloadData()
         updateLowestAndHighest()
@@ -81,12 +91,16 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
+        // start the inactivity indicator
         activityIndicator.startAnimating()
         activityIndicator.isHidden = false
         
+        // trying unsuccessfully to get rid of the word "Back" on the back button!
         navigationItem.backBarButtonItem?.title = " "
         
-        if detailDelegate?.currentEntityContext != .characters {
+        // the exchaneg rate button should only appear for vehicles and starships
+        if detailDelegate?.currentEntityContext == .vehicles ||
+           detailDelegate?.currentEntityContext == .starships {
             
             let rightButton = UIBarButtonItem(title: "Exch. Rate", style: .plain, target: self, action: #selector(DetailViewController.editExchangeRate))
             
@@ -94,9 +108,9 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
             navigationItem.rightBarButtonItem = rightButton
         }
         
-        self.configureView()
     }
 
+    // toggling the appearance of the navigation bar
     // Thanks to Michael Garito on StackOverflow for this
     // http://stackoverflow.com/questions/29209453/how-to-hide-a-navigation-bar-from-first-viewcontroller-in-swift
     override func viewWillAppear(_ animated: Bool) {
@@ -114,6 +128,13 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
         // Dispose of any resources that can be recreated.
     }
     
+    
+    
+    //////////////////////////////////////////////////////////////////////////////
+    // MARK: Lowest / Highest handling
+
+    // quick enum to determine which one we're looking for along with the appropriate 
+    // extreme opposite value
     enum ExtremeType {
         case highest
         case lowest
@@ -128,19 +149,23 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
         }
     }
     
+    // gets the name of the most extreme value for the given content key
     func getNameOfExtremeValue(for key: ContentKey, extreme: ExtremeType) -> String {
         
         var mostExtreme: Double = extreme.startValue
         var name: String = ""
         
+        // iterate through all of the content
         for item in content {
             
+            // skip if there is a problem with the data
             guard let stringValue = item[key.rawValue] as? String,
                   let doubleValue = Double(stringValue),
                   let nameString = item[ContentKey.name.rawValue] as? String else {
                 break
             }
             
+            // capture the name if it is the most extreme so far
             switch extreme {
             
             case.highest:
@@ -160,23 +185,29 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
         return name
     }
     
+    // updates the highest and lowest values
     func updateLowestAndHighest() {
         
+        // get the current context
         if let entityContext = detailDelegate?.currentEntityContext {
             
             switch entityContext {
             
             case .characters:
+                // change the labels
                 smallestLabel.text = "Shortest"
                 largestLabel.text = "Tallest"
 
+                // fetch the names of them
                 smallestNameLabel.text = getNameOfExtremeValue(for: .height, extreme: .lowest)
                 largestNameLabel.text = getNameOfExtremeValue(for: .height, extreme: .highest)
 
             case .vehicles, .starships:
+                // change the labels
                 smallestLabel.text = "Smallest"
                 largestLabel.text = "Largest"
 
+                // fetch the names of them
                 smallestNameLabel.text = getNameOfExtremeValue(for: .length, extreme: .lowest)
                 largestNameLabel.text = getNameOfExtremeValue(for: .length, extreme: .highest)
             }
@@ -184,14 +215,7 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
         
     }
     
-    func setNameInitialValue() {
-        
-        if let stringValue = content.first?[ContentKey.name.rawValue] as? String {
-            
-            mainNameLabel.text = stringValue.capitalized
-        }
-    }
-    
+    // launch the exchange rate view controller
     func editExchangeRate() {
         performSegue(withIdentifier: "ExchangeRate", sender: nil)
     }
@@ -199,11 +223,14 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
     
     
     
+    //////////////////////////////////////////////////////////////////////////////
     // MARK: UITableViewDelegate
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if let contentKey = detailDelegate?.currentEntityContext?.associatedKeys[indexPath.row],
             contentKey == .associatedVehicles {
             
+            // larger row for associated vehicles information
             return 100
             
         } else {
@@ -215,6 +242,7 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
     
     
     
+    //////////////////////////////////////////////////////////////////////////////
     // MARK: UITableViewDataSource
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -228,9 +256,12 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
             return 0
         }
         
+        // number of rows in table is equal to the number of content keys
+        // for this type of entity
         return keyCount
     }
     
+    // method to fetch the name of a specific planet, vehicle or starhsip
     func doNameLookUp(for cell: DetailCell, useCase: StarWarsAPIUseCase) {
         
         client.fetch(request: useCase.request, parse: useCase.getParser()) { result in
@@ -321,7 +352,7 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
             
         } else {
             
-            // this key does exist in the API, so just process the value
+            // this key DOES exist in the API, so just process the value
             
             // get the value from the JSON
             guard let contentValue = selectedItemJSON[contentKey.rawValue],
@@ -329,11 +360,13 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
                 return cell
             }
             
+            // key specific formatting
             switch contentKey {
                 
             case .height, .length:
                 if let doubleValue = Double(stringValue) {
                     
+                    // we will use a toggle button for height and length
                     cell.toggleButtonView.isHidden = false
                     cell.leftToggleButton.setTitle("English", for: .normal)
                     cell.rightToggleButton.setTitle("Metric", for: .normal)
@@ -350,12 +383,14 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
                     
                     cell.valueWhenToggleIsLeft = "\(feet)' \(inches)"
                     
+                    // intially displaying the unconverted amount (right toggle button on)
                     cell.highlightRight()
                 }
                 
             case .cost_in_credits:
                 if let doubleValue = Double(stringValue) {
                     
+                    // we will use a toggle button here too
                     cell.toggleButtonView.isHidden = false
                     cell.leftToggleButton.setTitle("USD", for: .normal)
                     cell.rightToggleButton.setTitle("Credits", for: .normal)
@@ -372,11 +407,24 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
                     return cell
                 }
                 
+                // do a name look up for the planet name, using the planet url provided 
+                // by the API
                 let useCase = StarWarsAPIUseCase.planets(id)
                 doNameLookUp(for: cell, useCase: useCase)
                 
             case .birth_year:
-                cell.valueLabel.text = stringValue.uppercased()
+                // want BBY to always be uppercase
+                if stringValue.contains("BBY") ||
+                    stringValue.contains("Bby") ||
+                    stringValue.contains("bby") {
+
+                    cell.valueLabel.text = stringValue.uppercased()
+                    
+                } else {
+                    
+                    // if it is not BBY then just capitalize whatever is in there
+                    cell.valueLabel.text = stringValue.capitalized
+                }
                 
             default:
                 cell.valueLabel.text = stringValue.capitalized
@@ -389,16 +437,21 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
 
     
     
+    //////////////////////////////////////////////////////////////////////////////
     // MARK: UIPickerViewDataSource
     
+    // fetches the name from the appropriate json item in content
     func getNameFromContent(row: Int) -> String {
         
         var returnName: String = ""
         
-        let item = content[row]
-        
-        if let name = item[ContentKey.name.rawValue] as? String {
-            returnName = name.capitalized
+        if content.indices.contains(row) {
+            
+            let item = content[row]
+            
+            if let name = item[ContentKey.name.rawValue] as? String {
+                returnName = name.capitalized
+            }
         }
         
         return returnName
@@ -416,23 +469,33 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
         return getNameFromContent(row: row)
     }
     
+    // when the picker value is changed
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        
+        // update the main name label on the screen (not part of the table view)
         mainNameLabel.text = getNameFromContent(row: row)
+        
+        // refresh the table view with the details from the appropriate item in content
         tableView.reloadData()
     }
     
     
     
+    
+    //////////////////////////////////////////////////////////////////////////////
     // MARK: ExchangeRateViewControllerDelegate
     
+    // just set the delegate to self when we segue to exchange rate view controller
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let target = segue.destination as? ExchangeRateViewController {
             target.delegate = self
         }
     }
     
+    // called by exchange rate view controller when it wants to be dismissed
     func onDismissExchangeRateVC() {
-        dismiss(animated: true) { self.refreshEverything() }
+        // reload the table view so the exchange rate is applied correctly
+        dismiss(animated: true) { self.tableView.reloadData() }
     }
 
 }
