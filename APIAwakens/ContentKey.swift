@@ -21,6 +21,8 @@ enum ContentKey: String {
     case manufacturer
     case vehicle_class
     case starship_class
+    
+    case associatedVehicles
 }
 
 extension ContentKey: CustomStringConvertible {
@@ -48,6 +50,8 @@ extension ContentKey: CustomStringConvertible {
             return "Make"
         case .vehicle_class, .starship_class:
             return "Class"
+        case .associatedVehicles:
+            return "Assoc. Vehicles"
         }
     }
 }
@@ -56,7 +60,7 @@ extension EntityContext {
     var associatedKeys: [ContentKey] {
         switch self {
         case .characters:
-            return [.birth_year, .homeworld, .height, .eye_color, .hair_color]
+            return [.birth_year, .homeworld, .height, .eye_color, .hair_color, .associatedVehicles]
         case .vehicles:
             return [.manufacturer, .cost_in_credits, .length, .vehicle_class, .crew]
         case .starships:

@@ -195,6 +195,22 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
     func editExchangeRate() {
         performSegue(withIdentifier: "ExchangeRate", sender: nil)
     }
+    
+    
+    
+    
+    // MARK: UITableViewDelegate
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if let contentKey = detailDelegate?.currentEntityContext?.associatedKeys[indexPath.row],
+            contentKey == .associatedVehicles {
+            
+            return 100
+            
+        } else {
+            
+            return 44
+        }
+    }
 
     
     
@@ -215,6 +231,33 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
         return keyCount
     }
     
+    func doNameLookUp(for cell: DetailCell, useCase: StarWarsAPIUseCase) {
+        
+        client.fetch(request: useCase.request, parse: useCase.getParser()) { result in
+            
+            switch result {
+                
+            case .success(let resultsPage):
+                if let json = resultsPage.results.first,
+                    let name = json[ContentKey.name.rawValue] as? String {
+                    
+                    if cell.valueLabel.text == "" {
+                        
+                        cell.valueLabel.text = name.capitalized
+
+                    } else {
+                    
+                        cell.valueLabel.text = cell.valueLabel.text! + ", \(name.capitalized)"
+                    }
+                }
+                
+            case .failure:
+                // fail quietly by not updating the value
+                break
+            }
+        }
+    }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "DetailCell", for: indexPath) as! DetailCell
         
@@ -223,82 +266,121 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
         cell.valueLabel.text = ""
         cell.toggleButtonView.isHidden = true
 
-        
-        guard let contentKey = detailDelegate?.currentEntityContext?.associatedKeys[indexPath.row],
-              let contentValue = content[picker.selectedRow(inComponent: 0)][contentKey.rawValue],
-              let stringValue = contentValue as? String else {
+        // N.B. Each entity type (character, vehicle, starhsip) has a set
+        // of associated keys (hair color, eye color etc) that are used to
+        // drive the rows in this table.
+        // So the first row might be "birth_year", so then we go get the value for 
+        // birth_year from the JSON and process it for this cell
+
+        // get the key from the associated keys that corresponds to this table row
+        guard let contentKey = detailDelegate?.currentEntityContext?.associatedKeys[indexPath.row] else {
             return cell
         }
         
         // set the label for the descriptor to key description
         cell.descriptorLabel.text = contentKey.description
         
-        switch contentKey {
+        let selectedItemIndex = picker.selectedRow(inComponent: 0)
+        let selectedItemJSON = content[selectedItemIndex]
+        
+        if contentKey == .associatedVehicles {
             
-        case .height, .length:
-            if let doubleValue = Double(stringValue) {
-                
-                cell.toggleButtonView.isHidden = false
-                cell.leftToggleButton.setTitle("English", for: .normal)
-                cell.rightToggleButton.setTitle("Metric", for: .normal)
-                
-                let (feet, inches): (Int, Int)
-                
-                if contentKey == .height {
-                    cell.valueWhenToggleIsRight = "\(doubleValue/100)m"
-                    (feet, inches) = (doubleValue/100).metersToInches.inchesToFeetAndInches
-                } else {
-                    cell.valueWhenToggleIsRight = "\(doubleValue)m"
-                    (feet, inches) = doubleValue.metersToInches.inchesToFeetAndInches
-                }
-
-                cell.valueWhenToggleIsLeft = "\(feet)' \(inches)"
-                
-                cell.highlightRight()
-            }
+            // this key doesn't actually exist in the API, so we have to derive it
             
-        case .cost_in_credits:
-            if let doubleValue = Double(stringValue) {
-                
-                cell.toggleButtonView.isHidden = false
-                cell.leftToggleButton.setTitle("USD", for: .normal)
-                cell.rightToggleButton.setTitle("Credits", for: .normal)
-                
-                cell.valueWhenToggleIsRight = "\(Int(doubleValue))"
-                cell.valueWhenToggleIsLeft = "\(Int(doubleValue*(defaults.double(forKey: DefaultKeys.exchangeRate))))"
-                
-                cell.highlightRight()
-            }
-            
-        case .homeworld:
-            guard let planetURL = URL(string: stringValue),
-                  let planetID = Int(planetURL.lastPathComponent) else {
+            guard let vehiclesArray = selectedItemJSON["vehicles"] as? [String],
+                  let starshipsArray = selectedItemJSON["starships"] as? [String] else {
                 return cell
             }
             
-            let useCase = StarWarsAPIUseCase.planets(planetID)
-            client.fetch(request: useCase.request, parse: useCase.getParser()) { result in
+            // iterate through vehicles arrays
+            for urlString in vehiclesArray {
                 
-                switch result {
-                
-                case .success(let resultsPage):
-                    if let json = resultsPage.results.first,
-                       let name = json[ContentKey.name.rawValue] as? String {
-                        
-                        cell.valueLabel.text = name
-                    }
-
-                case .failure:
-                    // fail quietly by not updating the planet name
+                guard let url = URL(string: urlString),
+                      let id = Int(url.lastPathComponent) else {
                     break
                 }
+                
+                // fetch the name for each concatenating it to the value for this cell
+                let useCase = StarWarsAPIUseCase.vehicles(id)
+                doNameLookUp(for: cell, useCase: useCase)
             }
             
-        case .birth_year:
-            cell.valueLabel.text = stringValue.uppercased()
+            // iterate through starships arrays
+            for urlString in starshipsArray {
+                
+                guard let url = URL(string: urlString),
+                    let id = Int(url.lastPathComponent) else {
+                        break
+                }
+                
+                // fetch the name for each concatenating it to the value for this cell
+                let useCase = StarWarsAPIUseCase.starships(id)
+                doNameLookUp(for: cell, useCase: useCase)
+            }
             
-        default:
-            cell.valueLabel.text = stringValue.capitalized
+            
+        } else {
+            
+            // this key does exist in the API, so just process the value
+            
+            // get the value from the JSON
+            guard let contentValue = selectedItemJSON[contentKey.rawValue],
+                  let stringValue = contentValue as? String else {
+                return cell
+            }
+            
+            switch contentKey {
+                
+            case .height, .length:
+                if let doubleValue = Double(stringValue) {
+                    
+                    cell.toggleButtonView.isHidden = false
+                    cell.leftToggleButton.setTitle("English", for: .normal)
+                    cell.rightToggleButton.setTitle("Metric", for: .normal)
+                    
+                    let (feet, inches): (Int, Int)
+                    
+                    if contentKey == .height {
+                        cell.valueWhenToggleIsRight = "\(doubleValue/100)m"
+                        (feet, inches) = (doubleValue/100).metersToInches.inchesToFeetAndInches
+                    } else {
+                        cell.valueWhenToggleIsRight = "\(doubleValue)m"
+                        (feet, inches) = doubleValue.metersToInches.inchesToFeetAndInches
+                    }
+                    
+                    cell.valueWhenToggleIsLeft = "\(feet)' \(inches)"
+                    
+                    cell.highlightRight()
+                }
+                
+            case .cost_in_credits:
+                if let doubleValue = Double(stringValue) {
+                    
+                    cell.toggleButtonView.isHidden = false
+                    cell.leftToggleButton.setTitle("USD", for: .normal)
+                    cell.rightToggleButton.setTitle("Credits", for: .normal)
+                    
+                    cell.valueWhenToggleIsRight = "\(Int(doubleValue))"
+                    cell.valueWhenToggleIsLeft = "\(Int(doubleValue*(defaults.double(forKey: DefaultKeys.exchangeRate))))"
+                    
+                    cell.highlightRight()
+                }
+                
+            case .homeworld:
+                guard let url = URL(string: stringValue),
+                      let id = Int(url.lastPathComponent) else {
+                    return cell
+                }
+                
+                let useCase = StarWarsAPIUseCase.planets(id)
+                doNameLookUp(for: cell, useCase: useCase)
+                
+            case .birth_year:
+                cell.valueLabel.text = stringValue.uppercased()
+                
+            default:
+                cell.valueLabel.text = stringValue.capitalized
+            }
         }
         
         return cell
