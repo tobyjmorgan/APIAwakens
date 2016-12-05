@@ -46,6 +46,8 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
     var detailItem: NSDate?
     var detailDelegate: DetailViewControllerDelegate?
     
+    let client = StarWarsAPIClient()
+    
     var content: [ [ String : AnyObject ] ] = []
     {
         didSet {
@@ -212,7 +214,8 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
 
         
         guard let contentKey = detailDelegate?.currentEntityContext?.associatedKeys[indexPath.row],
-              let contentValue = content[picker.selectedRow(inComponent: 0)][contentKey.rawValue] else {
+              let contentValue = content[picker.selectedRow(inComponent: 0)][contentKey.rawValue],
+              let stringValue = contentValue as? String else {
             return cell
         }
         
@@ -222,8 +225,7 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
         switch contentKey {
             
         case .height, .length:
-            if let stringValue = contentValue as? String,
-               let doubleValue = Double(stringValue) {
+            if let doubleValue = Double(stringValue) {
                 
                 cell.toggleButtonView.isHidden = false
                 cell.leftToggleButton.setTitle("English", for: .normal)
@@ -245,9 +247,7 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
             }
             
         case .cost_in_credits:
-            
-            if let stringValue = contentValue as? String,
-               let doubleValue = Double(stringValue) {
+            if let doubleValue = Double(stringValue) {
                 
                 cell.toggleButtonView.isHidden = false
                 cell.leftToggleButton.setTitle("USD", for: .normal)
@@ -259,15 +259,35 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
                 cell.highlightRight()
             }
             
-        case .birth_year:
-            if let stringValue = contentValue as? String {
-                cell.valueLabel.text = stringValue.uppercased()
+        case .homeworld:
+            guard let planetURL = URL(string: stringValue),
+                  let planetID = Int(planetURL.lastPathComponent) else {
+                return cell
             }
             
-        default:
-            if let stringValue = contentValue as? String {
-                cell.valueLabel.text = stringValue.capitalized
+            let useCase = StarWarsAPIUseCase.planets(planetID)
+            client.fetch(request: useCase.request, parse: useCase.getParser()) { result in
+                
+                switch result {
+                
+                case .success(let jsonArray):
+                    if let json = jsonArray.first,
+                       let name = json[ContentKey.name.rawValue] as? String {
+                        
+                        cell.valueLabel.text = name
+                    }
+
+                case .failure:
+                    // fail quietly by not updating the planet name
+                    break
+                }
             }
+            
+        case .birth_year:
+            cell.valueLabel.text = stringValue.uppercased()
+            
+        default:
+            cell.valueLabel.text = stringValue.capitalized
         }
         
         return cell
