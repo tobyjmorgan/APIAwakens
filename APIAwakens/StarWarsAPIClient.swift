@@ -19,11 +19,12 @@ enum StarWarsAPIUseCase {
     case vehicles(VehicleID?)
     case starships(StarshipID?)
     case planets(PlanetID?)
-//    case manual(SWAPIURLString)
+    case manual(SWAPIURLString)
 }
 
 extension StarWarsAPIUseCase: APIUseCase {
     var baseURL: String {
+        
         return "https://swapi.co/api/"
     }
     
@@ -58,37 +59,53 @@ extension StarWarsAPIUseCase: APIUseCase {
             }
             
             return "planets/"
+        
+        case .manual(let urlString):
+            let url = URL(string: urlString)!
+            let lastPathComponent = url.lastPathComponent
+            let query = url.query!
             
+            return "\(lastPathComponent)/?\(query)"
         }
     }
 }
 
+struct ResultsPage {
+    let nextPageURLString: String?
+    let results: [JSON]
+}
+
 extension StarWarsAPIUseCase {
-    func getParser() -> (JSON) -> [JSON]? {
+    
+    func getParser() -> (JSON) -> ResultsPage? {
+        
         switch self {
-        case .people(let id), .vehicles(let id), .starships(let id):
+        case .people(let id), .vehicles(let id), .starships(let id), .planets(let id):
             return { json in
                 
                 if id != nil {
-                    return [json]
+                    return ResultsPage(nextPageURLString: nil, results: [json])
                 } else {
                     if let arrayOfItems = json["results"] as? [JSON] {
-                        return arrayOfItems
+                        let page = ResultsPage(nextPageURLString: json["next"] as? String, results: arrayOfItems)
+                        return page
                     } else {
                         return nil
                     }
                 }
             }
-        case .planets(let id):
+            
+        case .manual:
             return { json in
-                
-                if id == nil {
-                    return nil
+                if let arrayOfItems = json["results"] as? [JSON] {
+                    let page = ResultsPage(nextPageURLString: json["next"] as? String, results: arrayOfItems)
+                    return page
                 } else {
-                    return [json]
+                    return nil
                 }
             }
         }
+    
     }
 }
 

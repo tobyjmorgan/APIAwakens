@@ -88,17 +88,35 @@ class EntityContextListController: UITableViewController, DetailViewControllerDe
             let useCase = entityContext.useCase
             networkClient.fetch(request: useCase.request, parse: useCase.getParser()) { result in
                 
-                switch result {
-                case .failure(let error):
-                    self.handleError(error: error)
-                case .success(let arrayOfJSON):
-                    controller.content = arrayOfJSON
-                }
-                
+                self.handleResults(for: controller, result: result)
             }
             
         }
     }
+    
+    func handleResults(for controller: DetailViewController, result: APIResult<ResultsPage>) {
+        
+        switch result {
+        case .failure(let error):
+            self.handleError(error: error)
+        case .success(let resultsPage):
+            
+            // append these results
+            controller.content.append(contentsOf: resultsPage.results)
+            
+            // try to get additional results
+            if let nextPage = resultsPage.nextPageURLString {
+                
+                let maualUseCase = StarWarsAPIUseCase.manual(nextPage)
+                networkClient.fetch(request: maualUseCase.request, parse: maualUseCase.getParser()) { result in
+                    
+                    self.handleResults(for: controller, result: result)
+                }
+            }
+        }
+    }
+
+
 
     // MARK: - Table View
 

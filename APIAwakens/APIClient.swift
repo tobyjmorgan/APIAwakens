@@ -35,6 +35,8 @@ protocol APIUseCase {
 
 extension APIUseCase {
     var request: URLRequest {
+        print(baseURL)
+        print(path)
         let url = URL(string: baseURL + path)!
         return URLRequest(url: url)
     }

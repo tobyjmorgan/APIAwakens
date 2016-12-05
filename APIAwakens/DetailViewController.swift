@@ -51,10 +51,21 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
     var content: [ [ String : AnyObject ] ] = []
     {
         didSet {
-            activityIndicator.stopAnimating()
-            activityIndicator.isHidden = true
+            if activityIndicator.isAnimating {
+                
+                activityIndicator.stopAnimating()
+                activityIndicator.isHidden = true
+            }
 
-            refreshEverything()
+            if oldValue.count == 0 {
+                
+                refreshEverything()
+                
+            } else {
+                
+                picker.reloadAllComponents()
+                updateLowestAndHighest()
+            }
         }
     }
     
@@ -270,8 +281,8 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
                 
                 switch result {
                 
-                case .success(let jsonArray):
-                    if let json = jsonArray.first,
+                case .success(let resultsPage):
+                    if let json = resultsPage.results.first,
                        let name = json[ContentKey.name.rawValue] as? String {
                         
                         cell.valueLabel.text = name
