@@ -15,12 +15,14 @@ class SoundManager {
         case notificationPlayCharacterSound
         case notificationPlayVehicleSound
         case notificationPlayStarshipSound
+        case notificationPlayAlertSound
     }
     
     // sounds
     var characterSound: SystemSoundID = 0
     var vehicleSound: SystemSoundID = 0
     var starshipSound: SystemSoundID = 0
+    var alertSound: SystemSoundID = 0
     
     init() {
         loadSounds()
@@ -28,6 +30,7 @@ class SoundManager {
         NotificationCenter.default.addObserver(self, selector: #selector(playCharacterSound), name: NSNotification.Name(rawValue: SoundManager.Notifications.notificationPlayCharacterSound.rawValue), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(playVehicleSound), name: NSNotification.Name(rawValue: SoundManager.Notifications.notificationPlayVehicleSound.rawValue), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(playStarshipSound), name: NSNotification.Name(rawValue: SoundManager.Notifications.notificationPlayStarshipSound.rawValue), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(playAlertSound), name: NSNotification.Name(rawValue: SoundManager.Notifications.notificationPlayAlertSound.rawValue), object: nil)
     }
     
     // load the specified sound
@@ -46,6 +49,7 @@ class SoundManager {
         loadSound(filename: "character", systemSound: &characterSound)
         loadSound(filename: "vehicle", systemSound: &vehicleSound)
         loadSound(filename: "starship", systemSound: &starshipSound)
+        loadSound(filename: "Alert", systemSound: &starshipSound)
     }
     
     @objc func playCharacterSound() {
@@ -58,5 +62,9 @@ class SoundManager {
 
     @objc func playStarshipSound() {
         AudioServicesPlaySystemSound(starshipSound)
+    }
+
+    @objc func playAlertSound() {
+        AudioServicesPlaySystemSound(alertSound)
     }
 }

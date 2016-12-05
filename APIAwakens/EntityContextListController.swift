@@ -16,16 +16,6 @@ class EntityContextListController: UITableViewController, DetailViewControllerDe
     
     var detailViewController: DetailViewController? = nil
 
-    func getExchangeRate() -> Double {
-        
-        return model.exchangeRate
-    }
-    
-    func setExchangeRate(rate: Double) {
-        
-        model.exchangeRate = rate
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -46,7 +36,34 @@ class EntityContextListController: UITableViewController, DetailViewControllerDe
     }
 
     func handleError(error: Error) {
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: SoundManager.Notifications.notificationPlayAlertSound.rawValue), object: nil)
         
+        var message: String?
+        
+        if let netError = error as? APIClientError {
+            switch netError {
+            case .missingHTTPResponse:
+                message = "Missing HTTP Response."
+            case .unableToSerializeDataToJSON:
+                message = "Unable to serialize returned data to JSON format."
+            case .unableToParseJSON(let json):
+                message = "Unable to parse JSON data: returned JSON data printed to console for inspection."
+                print(json)
+            case .unexpectedHTTPResponseStatusCode(let code):
+                message = "Unexpected HTTP response: \(code)"
+            case .noDataReturned:
+                message = "No data returned by HTTP request."
+            case .unknownError:
+                message = "Dang! There was somekind of unknown error"
+            }
+        }
+        
+        if let message = message {
+            
+            let alert = UIAlertController(title: "Ouch!", message: message, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Got it", style: .default, handler: nil))
+            present(alert, animated: true, completion: nil)
+        }
     }
     
     // MARK: - Segues

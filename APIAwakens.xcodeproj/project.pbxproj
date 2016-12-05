@@ -31,6 +31,7 @@
 		6BA2BD621DF4BBC400C41443 /* SoundManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA2BD611DF4BBC400C41443 /* SoundManager.swift */; };
 		6BA2BD641DF5187700C41443 /* ExchangeRateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA2BD631DF5187700C41443 /* ExchangeRateViewController.swift */; };
 		6BA2BD661DF5188E00C41443 /* ExchangeRateViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA2BD651DF5188E00C41443 /* ExchangeRateViewControllerDelegate.swift */; };
+		6BA2BD681DF526D500C41443 /* Alert.wav in Resources */ = {isa = PBXBuildFile; fileRef = 6BA2BD671DF526D500C41443 /* Alert.wav */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -81,6 +82,7 @@
 		6BA2BD611DF4BBC400C41443 /* SoundManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SoundManager.swift; sourceTree = "<group>"; };
 		6BA2BD631DF5187700C41443 /* ExchangeRateViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExchangeRateViewController.swift; sourceTree = "<group>"; };
 		6BA2BD651DF5188E00C41443 /* ExchangeRateViewControllerDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExchangeRateViewControllerDelegate.swift; sourceTree = "<group>"; };
+		6BA2BD671DF526D500C41443 /* Alert.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Alert.wav; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -203,6 +205,7 @@
 				6BA2BD591DF4B26900C41443 /* character.wav */,
 				6BA2BD5D1DF4B28800C41443 /* vehicle.wav */,
 				6BA2BD5A1DF4B26900C41443 /* starship.wav */,
+				6BA2BD671DF526D500C41443 /* Alert.wav */,
 				6BA2BD5F1DF4B2A000C41443 /* CanPlaySound.swift */,
 			);
 			name = Sounds;
@@ -319,6 +322,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6B39F1541DF333FD00150396 /* LaunchScreen.storyboard in Resources */,
+				6BA2BD681DF526D500C41443 /* Alert.wav in Resources */,
 				6BA2BD5E1DF4B28800C41443 /* vehicle.wav in Resources */,
 				6B39F1511DF333FD00150396 /* Assets.xcassets in Resources */,
 				6BA2BD5C1DF4B26900C41443 /* starship.wav in Resources */,

@@ -197,18 +197,22 @@
                                     </view>
                                 </subviews>
                             </stackView>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="hBu-TT-fkH"/>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="0Ri-cS-ttZ" firstAttribute="top" secondItem="SYR-Wa-9uf" secondAttribute="bottom" id="UwH-zQ-3jW"/>
                             <constraint firstAttribute="trailing" secondItem="0Ri-cS-ttZ" secondAttribute="trailing" id="bqo-VE-MB1"/>
                             <constraint firstItem="GAO-Cl-Wes" firstAttribute="top" secondItem="0Ri-cS-ttZ" secondAttribute="bottom" id="dJE-De-GxB"/>
+                            <constraint firstItem="hBu-TT-fkH" firstAttribute="centerX" secondItem="svH-Pt-448" secondAttribute="centerX" id="qKL-dl-bDw"/>
                             <constraint firstItem="0Ri-cS-ttZ" firstAttribute="leading" secondItem="svH-Pt-448" secondAttribute="leading" id="tqY-TZ-a2r"/>
+                            <constraint firstItem="hBu-TT-fkH" firstAttribute="centerY" secondItem="svH-Pt-448" secondAttribute="centerY" id="xTk-N2-K6y"/>
                         </constraints>
                     </view>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="Detail" id="mOI-FS-AaM"/>
                     <connections>
+                        <outlet property="activityIndicator" destination="hBu-TT-fkH" id="JQw-9N-00a"/>
                         <outlet property="largestLabel" destination="Qrc-DD-gJM" id="vxJ-zG-kP3"/>
                         <outlet property="largestNameLabel" destination="NYm-q6-mA5" id="jjo-pd-Goc"/>
                         <outlet property="mainNameLabel" destination="G3w-Ue-yIW" id="TA9-qB-yEv"/>

@@ -37,26 +37,21 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
     @IBOutlet var picker: UIPickerView!
     @IBOutlet var tableView: UITableView!
     @IBOutlet var mainNameLabel: UILabel!
-    
-    func getExchangeRate() -> Double {
-        
-        return (detailDelegate?.getExchangeRate())!
-    }
-    
-    func setExchangeRate(rate: Double) {
-        
-        detailDelegate?.setExchangeRate(rate: rate)
-    }
+    @IBOutlet var activityIndicator: UIActivityIndicatorView!
     
     func configureView() {
     }
     
+    let defaults = UserDefaults.standard
     var detailItem: NSDate?
     var detailDelegate: DetailViewControllerDelegate?
     
     var content: [ [ String : AnyObject ] ] = []
     {
         didSet {
+            activityIndicator.stopAnimating()
+            activityIndicator.isHidden = true
+
             refreshEverything()
         }
     }
@@ -72,6 +67,9 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        
+        activityIndicator.startAnimating()
+        activityIndicator.isHidden = false
         
         navigationItem.backBarButtonItem?.title = " "
         
@@ -256,9 +254,14 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
                 cell.rightToggleButton.setTitle("Credits", for: .normal)
                 
                 cell.valueWhenToggleIsRight = "\(Int(doubleValue))"
-                cell.valueWhenToggleIsLeft = "\(Int(doubleValue*(detailDelegate?.getExchangeRate())!))"
+                cell.valueWhenToggleIsLeft = "\(Int(doubleValue*(defaults.double(forKey: DefaultKeys.exchangeRate))))"
                 
                 cell.highlightRight()
+            }
+            
+        case .birth_year:
+            if let stringValue = contentValue as? String {
+                cell.valueLabel.text = stringValue.uppercased()
             }
             
         default:

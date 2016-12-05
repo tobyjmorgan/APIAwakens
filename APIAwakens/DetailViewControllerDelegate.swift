@@ -9,9 +9,5 @@
 import Foundation
 
 protocol DetailViewControllerDelegate {
-    
     var currentEntityContext: EntityContext? { get }
-    
-    func getExchangeRate() -> Double
-    func setExchangeRate(rate: Double)
 }

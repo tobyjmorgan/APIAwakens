@@ -9,9 +9,5 @@
 import Foundation
 
 protocol ExchangeRateViewControllerDelegate {
-    
-    func getExchangeRate() -> Double
-    func setExchangeRate(rate: Double)
-
     func onDismissExchangeRateVC()
 }

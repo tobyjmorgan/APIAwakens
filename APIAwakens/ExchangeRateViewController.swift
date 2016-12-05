@@ -13,11 +13,17 @@ class ExchangeRateViewController: UIViewController {
     @IBOutlet var exchangeRate: UITextField!
     
     @IBAction func onDone() {
+        
         if let rateAsString = exchangeRate.text,
-           let rate = Double(rateAsString) {
-            delegate?.setExchangeRate(rate: rate)
+            let rate = Double(rateAsString),
+            rate > 0.0 {
+            
+            let defaults = UserDefaults.standard
+            defaults.set(rate, forKey: DefaultKeys.exchangeRate)
             delegate?.onDismissExchangeRateVC()
+
         } else {
+        
             showAlert()
         }
     }
@@ -29,9 +35,8 @@ class ExchangeRateViewController: UIViewController {
 
         // Do any additional setup after loading the view.
         
-        if let rate = delegate?.getExchangeRate() {
-            exchangeRate.text = "\(rate)"
-        }
+        let defaults = UserDefaults.standard
+        exchangeRate.text = "\(defaults.double(forKey: DefaultKeys.exchangeRate))"
     }
 
     // Thanks to Michael Garito on StackOverflow for this
@@ -52,6 +57,9 @@ class ExchangeRateViewController: UIViewController {
     }
     
     func showAlert() {
-        
+        let alert = UIAlertController(title: "That Won't Fly", message: "Sorry, that's not a valid exchange rate. Please try again.", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Oh, alright!", style: .default, handler: nil))
+        present(alert, animated: true, completion: nil)
+
     }
 }
