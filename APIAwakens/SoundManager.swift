@@ -49,7 +49,7 @@ class SoundManager {
         loadSound(filename: "character", systemSound: &characterSound)
         loadSound(filename: "vehicle", systemSound: &vehicleSound)
         loadSound(filename: "starship", systemSound: &starshipSound)
-        loadSound(filename: "Alert", systemSound: &starshipSound)
+        loadSound(filename: "Alert", systemSound: &alertSound)
     }
     
     @objc func playCharacterSound() {

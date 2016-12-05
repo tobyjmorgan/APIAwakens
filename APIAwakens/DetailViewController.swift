@@ -416,7 +416,10 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
                 // want BBY to always be uppercase
                 if stringValue.contains("BBY") ||
                     stringValue.contains("Bby") ||
-                    stringValue.contains("bby") {
+                    stringValue.contains("bby") ||
+                    stringValue.contains("ABY") ||
+                    stringValue.contains("Aby") ||
+                    stringValue.contains("aby") {
 
                     cell.valueLabel.text = stringValue.uppercased()
                     
