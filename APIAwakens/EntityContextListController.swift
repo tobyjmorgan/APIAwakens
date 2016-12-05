@@ -10,7 +10,9 @@ import UIKit
 
 class EntityContextListController: UITableViewController, DetailViewControllerDelegate {
 
+    var sounds = SoundManager()
     var model = MasterModel()
+    var networkClient = StarWarsAPIClient()
     
     var detailViewController: DetailViewController? = nil
 
@@ -33,6 +35,10 @@ class EntityContextListController: UITableViewController, DetailViewControllerDe
         // Dispose of any resources that can be recreated.
     }
 
+    func handleError(error: Error) {
+        
+    }
+    
     // MARK: - Segues
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -44,12 +50,26 @@ class EntityContextListController: UITableViewController, DetailViewControllerDe
             }
             
             model.currentEntityContext = entityContext
+            entityContext.playSound()
             
             let controller = (segue.destination as! UINavigationController).topViewController as! DetailViewController
             controller.detailDelegate = self
             controller.navigationItem.title = entityContext.description
             controller.navigationItem.leftBarButtonItem = self.splitViewController?.displayModeButtonItem
             controller.navigationItem.leftItemsSupplementBackButton = true
+
+            let useCase = entityContext.useCase
+            networkClient.fetch(request: useCase.request, parse: useCase.getParser()) { result in
+                
+                switch result {
+                case .failure(let error):
+                    self.handleError(error: error)
+                case .success(let arrayOfJSON):
+                    controller.content = arrayOfJSON
+                }
+                
+            }
+            
         }
     }
 

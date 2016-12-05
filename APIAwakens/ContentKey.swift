@@ -53,7 +53,7 @@ extension ContentKey: CustomStringConvertible {
 }
 
 extension EntityContext {
-    var assoiciatedKeys: [ContentKey] {
+    var associatedKeys: [ContentKey] {
         switch self {
         case .characters:
             return [.birth_year, .homeworld, .height, .eye_color, .hair_color]

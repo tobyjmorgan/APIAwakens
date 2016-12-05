@@ -31,3 +31,16 @@ extension EntityContext: CustomStringConvertible {
     }
 }
 
+extension EntityContext {
+    var useCase: StarWarsAPIUseCase {
+        switch self {
+        case .characters:
+            return .people(nil)
+        case .vehicles:
+            return .vehicles(nil)
+        case .starships:
+            return .starships(nil)
+        }
+    }
+}
+

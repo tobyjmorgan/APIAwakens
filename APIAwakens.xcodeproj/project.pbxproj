@@ -24,6 +24,11 @@
 		6BA2BD141DF3773600C41443 /* MasterModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA2BD131DF3773600C41443 /* MasterModel.swift */; };
 		6BA2BD531DF3DB0800C41443 /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA2BD521DF3DB0800C41443 /* APIClient.swift */; };
 		6BA2BD551DF3DB1D00C41443 /* StarWarsAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA2BD541DF3DB1D00C41443 /* StarWarsAPIClient.swift */; };
+		6BA2BD5B1DF4B26900C41443 /* character.wav in Resources */ = {isa = PBXBuildFile; fileRef = 6BA2BD591DF4B26900C41443 /* character.wav */; };
+		6BA2BD5C1DF4B26900C41443 /* starship.wav in Resources */ = {isa = PBXBuildFile; fileRef = 6BA2BD5A1DF4B26900C41443 /* starship.wav */; };
+		6BA2BD5E1DF4B28800C41443 /* vehicle.wav in Resources */ = {isa = PBXBuildFile; fileRef = 6BA2BD5D1DF4B28800C41443 /* vehicle.wav */; };
+		6BA2BD601DF4B2A000C41443 /* CanPlaySound.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA2BD5F1DF4B2A000C41443 /* CanPlaySound.swift */; };
+		6BA2BD621DF4BBC400C41443 /* SoundManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA2BD611DF4BBC400C41443 /* SoundManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -67,6 +72,11 @@
 		6BA2BD131DF3773600C41443 /* MasterModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MasterModel.swift; sourceTree = "<group>"; };
 		6BA2BD521DF3DB0800C41443 /* APIClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
 		6BA2BD541DF3DB1D00C41443 /* StarWarsAPIClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StarWarsAPIClient.swift; sourceTree = "<group>"; };
+		6BA2BD591DF4B26900C41443 /* character.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = character.wav; sourceTree = "<group>"; };
+		6BA2BD5A1DF4B26900C41443 /* starship.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = starship.wav; sourceTree = "<group>"; };
+		6BA2BD5D1DF4B28800C41443 /* vehicle.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = vehicle.wav; sourceTree = "<group>"; };
+		6BA2BD5F1DF4B2A000C41443 /* CanPlaySound.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CanPlaySound.swift; sourceTree = "<group>"; };
+		6BA2BD611DF4BBC400C41443 /* SoundManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SoundManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -117,6 +127,7 @@
 		6B39F1461DF333FD00150396 /* APIAwakens */ = {
 			isa = PBXGroup;
 			children = (
+				6BA2BD581DF4B25E00C41443 /* Sounds */,
 				6BA2BD511DF3DAD800C41443 /* Networking */,
 				6B39F1771DF3345200150396 /* Model */,
 				6B39F1471DF333FD00150396 /* AppDelegate.swift */,
@@ -177,6 +188,18 @@
 				6BA2BD541DF3DB1D00C41443 /* StarWarsAPIClient.swift */,
 			);
 			name = Networking;
+			sourceTree = "<group>";
+		};
+		6BA2BD581DF4B25E00C41443 /* Sounds */ = {
+			isa = PBXGroup;
+			children = (
+				6BA2BD611DF4BBC400C41443 /* SoundManager.swift */,
+				6BA2BD591DF4B26900C41443 /* character.wav */,
+				6BA2BD5D1DF4B28800C41443 /* vehicle.wav */,
+				6BA2BD5A1DF4B26900C41443 /* starship.wav */,
+				6BA2BD5F1DF4B2A000C41443 /* CanPlaySound.swift */,
+			);
+			name = Sounds;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -290,7 +313,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				6B39F1541DF333FD00150396 /* LaunchScreen.storyboard in Resources */,
+				6BA2BD5E1DF4B28800C41443 /* vehicle.wav in Resources */,
 				6B39F1511DF333FD00150396 /* Assets.xcassets in Resources */,
+				6BA2BD5C1DF4B26900C41443 /* starship.wav in Resources */,
+				6BA2BD5B1DF4B26900C41443 /* character.wav in Resources */,
 				6B39F14F1DF333FD00150396 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -316,10 +342,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6BA2BD601DF4B2A000C41443 /* CanPlaySound.swift in Sources */,
 				6B256DC41DF338BD00DA68B0 /* EntityContextCell.swift in Sources */,
 				6BA2BD141DF3773600C41443 /* MasterModel.swift in Sources */,
 				6BA2BD551DF3DB1D00C41443 /* StarWarsAPIClient.swift in Sources */,
 				6B39F1791DF3346A00150396 /* EntityContext.swift in Sources */,
+				6BA2BD621DF4BBC400C41443 /* SoundManager.swift in Sources */,
 				6B39F14C1DF333FD00150396 /* DetailViewController.swift in Sources */,
 				6BA2BD121DF376E900C41443 /* DetailViewControllerDelegate.swift in Sources */,
 				6BA2BD531DF3DB0800C41443 /* APIClient.swift in Sources */,

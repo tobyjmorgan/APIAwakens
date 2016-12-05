@@ -63,6 +63,35 @@ extension StarWarsAPIUseCase: APIUseCase {
     }
 }
 
+extension StarWarsAPIUseCase {
+    func getParser() -> (JSON) -> [JSON]? {
+        switch self {
+        case .people(let id), .vehicles(let id), .starships(let id):
+            return { json in
+                
+                if id != nil {
+                    return [json]
+                } else {
+                    if let arrayOfItems = json["results"] as? [JSON] {
+                        return arrayOfItems
+                    } else {
+                        return nil
+                    }
+                }
+            }
+        case .planets(let id):
+            return { json in
+                
+                if id == nil {
+                    return nil
+                } else {
+                    return [json]
+                }
+            }
+        }
+    }
+}
+
 final class StarWarsAPIClient: APIClient {
     
     let configuration: URLSessionConfiguration

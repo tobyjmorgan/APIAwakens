@@ -35,10 +35,7 @@ protocol APIUseCase {
 
 extension APIUseCase {
     var request: URLRequest {
-        var components = URLComponents(string: baseURL)!
-        components.path = path
-        
-        let url = components.url!
+        let url = URL(string: baseURL + path)!
         return URLRequest(url: url)
     }
 }
@@ -54,7 +51,7 @@ protocol APIClient {
     init(config: URLSessionConfiguration)
     
     func JSONTaskWithRequest(request: URLRequest, completion: @escaping JSONTaskCompletion) -> JSONTask
-    func fetch<T: JSONDecodable>(request: URLRequest, parse: @escaping (JSON) -> T?, completion: @escaping (APIResult<T>) -> Void)
+    func fetch<T>(request: URLRequest, parse: @escaping (JSON) -> T?, completion: @escaping (APIResult<T>) -> Void)
 }
 
 extension APIClient {

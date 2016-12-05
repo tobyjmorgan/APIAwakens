@@ -41,26 +41,19 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
     func configureView() {
     }
     
+    var detailItem: NSDate?
     var detailDelegate: DetailViewControllerDelegate?
     var exchangeRate: Double = 1000.0
     
-    var content: [ [ String : AnyObject ] ] = [
-        [
-            "name" : "Luke Skywalker" as AnyObject,
-            "birth_year" : "19BBY" as AnyObject,
-            "homeworld" : "Tatooine" as AnyObject,
-            "height" : 1.72 as AnyObject,
-            "eye_color" : "Blue" as AnyObject,
-            "hair_color" : "Blond" as AnyObject],
-        [
-            "name" : "Darth Vader" as AnyObject,
-            "birth_year" : "100BBY" as AnyObject,
-            "homeworld" : "Tatooine" as AnyObject,
-            "height" : 2.82 as AnyObject,
-            "eye_color" : "Red" as AnyObject,
-            "hair_color" : "Black" as AnyObject]
-    ]
-
+    var content: [ [ String : AnyObject ] ] = []
+    {
+        didSet {
+            picker.reloadAllComponents()
+            tableView.reloadData()
+            updateLowestAndHighest()
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -85,8 +78,79 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    enum ExtremeType {
+        case highest
+        case lowest
+        
+        var startValue: Double {
+            switch self {
+            case .highest:
+                return Double.leastNonzeroMagnitude
+            case .lowest:
+                return Double.greatestFiniteMagnitude
+            }
+        }
+    }
+    
+    func getNameOfExtremeValue(for key: ContentKey, extreme: ExtremeType) -> String {
+        
+        var mostExtreme: Double = extreme.startValue
+        var name: String = ""
+        
+        for item in content {
+            
+            guard let stringValue = item[key.rawValue] as? String,
+                  let doubleValue = Double(stringValue),
+                  let nameString = item[ContentKey.name.rawValue] as? String else {
+                break
+            }
+            
+            switch extreme {
+            
+            case.highest:
+                if doubleValue > mostExtreme {
+                    mostExtreme = doubleValue
+                    name = nameString
+                }
+                
+            case.lowest:
+                if doubleValue < mostExtreme {
+                    mostExtreme = doubleValue
+                    name = nameString
+                }
+            }
+        }
+        
+        return name
+    }
+    
+    func updateLowestAndHighest() {
+        
+        if let entityContext = detailDelegate?.currentEntityContext {
+            
+            switch entityContext {
+            
+            case .characters:
+                smallestLabel.text = "Shortest"
+                largestLabel.text = "Tallest"
 
-    var detailItem: NSDate?
+                smallestNameLabel.text = getNameOfExtremeValue(for: .height, extreme: .lowest)
+                largestNameLabel.text = getNameOfExtremeValue(for: .height, extreme: .highest)
+
+            case .vehicles, .starships:
+                smallestLabel.text = "Smallest"
+                largestLabel.text = "Largest"
+
+                smallestNameLabel.text = getNameOfExtremeValue(for: .length, extreme: .lowest)
+                largestNameLabel.text = getNameOfExtremeValue(for: .length, extreme: .highest)
+            }
+        }
+        
+    }
+
+    
+    
     
     // MARK: UITableViewDataSource
     
@@ -96,7 +160,8 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        guard let keyCount = detailDelegate?.currentEntityContext?.assoiciatedKeys.count else {
+        guard let keyCount = detailDelegate?.currentEntityContext?.associatedKeys.count,
+              content.count > 0 else {
             return 0
         }
         
@@ -112,7 +177,7 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
         cell.toggleButtonView.isHidden = true
 
         
-        guard let contentKey = detailDelegate?.currentEntityContext?.assoiciatedKeys[indexPath.row],
+        guard let contentKey = detailDelegate?.currentEntityContext?.associatedKeys[indexPath.row],
               let contentValue = content[picker.selectedRow(inComponent: 0)][contentKey.rawValue] else {
             return cell
         }
@@ -123,15 +188,23 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
         switch contentKey {
             
         case .height, .length:
-            if let doubleValue = contentValue as? Double {
+            if let stringValue = contentValue as? String,
+               let doubleValue = Double(stringValue) {
                 
                 cell.toggleButtonView.isHidden = false
                 cell.leftToggleButton.setTitle("English", for: .normal)
                 cell.rightToggleButton.setTitle("Metric", for: .normal)
                 
-                cell.valueWhenToggleIsRight = "\(doubleValue)"
+                let (feet, inches): (Int, Int)
                 
-                let (feet, inches) = doubleValue.metersToInches.inchesToFeetAndInches
+                if contentKey == .height {
+                    cell.valueWhenToggleIsRight = "\(doubleValue/100)m"
+                    (feet, inches) = (doubleValue/100).metersToInches.inchesToFeetAndInches
+                } else {
+                    cell.valueWhenToggleIsRight = "\(doubleValue)m"
+                    (feet, inches) = doubleValue.metersToInches.inchesToFeetAndInches
+                }
+
                 cell.valueWhenToggleIsLeft = "\(feet)' \(inches)"
                 
                 cell.highlightRight()
@@ -139,21 +212,22 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
             
         case .cost_in_credits:
             
-            if let doubleValue = contentValue as? Double {
+            if let stringValue = contentValue as? String,
+               let doubleValue = Double(stringValue) {
                 
                 cell.toggleButtonView.isHidden = false
                 cell.leftToggleButton.setTitle("USD", for: .normal)
                 cell.rightToggleButton.setTitle("Credits", for: .normal)
                 
-                cell.valueWhenToggleIsRight = "\(doubleValue)"
-                cell.valueWhenToggleIsLeft = "\(doubleValue*exchangeRate)"
+                cell.valueWhenToggleIsRight = "\(Int(doubleValue))"
+                cell.valueWhenToggleIsLeft = "\(Int(doubleValue*exchangeRate))"
                 
                 cell.highlightRight()
             }
             
         default:
             if let stringValue = contentValue as? String {
-                cell.valueLabel.text = stringValue
+                cell.valueLabel.text = stringValue.capitalized
             }
         }
         
@@ -161,6 +235,8 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
     }
 
 
+    
+    
     // MARK: UIPickerViewDataSource
     
     func getNameFromContent(row: Int) -> String {
