@@ -16,6 +16,16 @@ class EntityContextListController: UITableViewController, DetailViewControllerDe
     
     var detailViewController: DetailViewController? = nil
 
+    func getExchangeRate() -> Double {
+        
+        return model.exchangeRate
+    }
+    
+    func setExchangeRate(rate: Double) {
+        
+        model.exchangeRate = rate
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -100,9 +110,5 @@ class EntityContextListController: UITableViewController, DetailViewControllerDe
         return model.currentEntityContext
     }
     
-    func onDetailWillDismiss() {
-        model.currentEntityContext = nil
-    }
-
 }
 

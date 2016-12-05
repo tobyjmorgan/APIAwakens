@@ -26,7 +26,7 @@ extension Int {
     }
 }
 
-class DetailViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UIPickerViewDataSource, UIPickerViewDelegate {
+class DetailViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UIPickerViewDataSource, UIPickerViewDelegate, ExchangeRateViewControllerDelegate {
 
     @IBOutlet var smallestLabel: UILabel!
     @IBOutlet var largestLabel: UILabel!
@@ -38,30 +38,55 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
     @IBOutlet var tableView: UITableView!
     @IBOutlet var mainNameLabel: UILabel!
     
+    func getExchangeRate() -> Double {
+        
+        return (detailDelegate?.getExchangeRate())!
+    }
+    
+    func setExchangeRate(rate: Double) {
+        
+        detailDelegate?.setExchangeRate(rate: rate)
+    }
+    
     func configureView() {
     }
     
     var detailItem: NSDate?
     var detailDelegate: DetailViewControllerDelegate?
-    var exchangeRate: Double = 1000.0
     
     var content: [ [ String : AnyObject ] ] = []
     {
         didSet {
-            picker.reloadAllComponents()
-            tableView.reloadData()
-            updateLowestAndHighest()
+            refreshEverything()
         }
+    }
+    
+    func refreshEverything() {
+        
+        setNameInitialValue()
+        picker.reloadAllComponents()
+        tableView.reloadData()
+        updateLowestAndHighest()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
+        navigationItem.backBarButtonItem?.title = " "
+        
+        if detailDelegate?.currentEntityContext != .characters {
+            
+            let rightButton = UIBarButtonItem(title: "Exch. Rate", style: .plain, target: self, action: #selector(DetailViewController.editExchangeRate))
+            
+            // Create two buttons for the navigation item
+            navigationItem.rightBarButtonItem = rightButton
+        }
+        
         self.configureView()
     }
 
-    // Thnaks to Michael Garito on StackOverflow for this
+    // Thanks to Michael Garito on StackOverflow for this
     // http://stackoverflow.com/questions/29209453/how-to-hide-a-navigation-bar-from-first-viewcontroller-in-swift
     override func viewWillAppear(_ animated: Bool) {
         // Hide the navigation bar on the this view controller
@@ -71,7 +96,6 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
     override func viewWillDisappear(_ animated: Bool) {
         // Show the navigation bar on other view controllers
         self.navigationController?.setNavigationBarHidden(true, animated: true)
-        detailDelegate?.onDetailWillDismiss()
     }
     
     override func didReceiveMemoryWarning() {
@@ -148,6 +172,18 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
         }
         
     }
+    
+    func setNameInitialValue() {
+        
+        if let stringValue = content.first?[ContentKey.name.rawValue] as? String {
+            
+            mainNameLabel.text = stringValue.capitalized
+        }
+    }
+    
+    func editExchangeRate() {
+        performSegue(withIdentifier: "ExchangeRate", sender: nil)
+    }
 
     
     
@@ -220,7 +256,7 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
                 cell.rightToggleButton.setTitle("Credits", for: .normal)
                 
                 cell.valueWhenToggleIsRight = "\(Int(doubleValue))"
-                cell.valueWhenToggleIsLeft = "\(Int(doubleValue*exchangeRate))"
+                cell.valueWhenToggleIsLeft = "\(Int(doubleValue*(detailDelegate?.getExchangeRate())!))"
                 
                 cell.highlightRight()
             }
@@ -246,7 +282,7 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
         let item = content[row]
         
         if let name = item[ContentKey.name.rawValue] as? String {
-            returnName = name
+            returnName = name.capitalized
         }
         
         return returnName
@@ -269,5 +305,19 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
         tableView.reloadData()
     }
     
+    
+    
+    // MARK: ExchangeRateViewControllerDelegate
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let target = segue.destination as? ExchangeRateViewController {
+            target.delegate = self
+        }
+    }
+    
+    func onDismissExchangeRateVC() {
+        dismiss(animated: true) { self.refreshEverything() }
+    }
+
 }
 

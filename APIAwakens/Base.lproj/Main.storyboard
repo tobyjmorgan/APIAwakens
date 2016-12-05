@@ -43,7 +43,7 @@
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="0Ri-cS-ttZ">
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Luke Skywalker" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="G3w-Ue-yIW">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" " textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="G3w-Ue-yIW">
                                         <constraints>
                                             <constraint firstAttribute="height" constant="60" id="xR0-2P-nig"/>
                                         </constraints>
@@ -216,11 +216,72 @@
                         <outlet property="smallestLabel" destination="HZt-Ob-ZaG" id="hFq-Gp-N2U"/>
                         <outlet property="smallestNameLabel" destination="wes-PP-b2p" id="nqI-Rg-2lx"/>
                         <outlet property="tableView" destination="a7F-Ik-RlZ" id="3Ne-oA-eLA"/>
+                        <segue destination="wNu-Pt-S1D" kind="presentation" identifier="ExchangeRate" id="Wzi-xE-cNK"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FJe-Yq-33r" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="708" y="128.18590704647679"/>
+        </scene>
+        <!--Exchange Rate View Controller-->
+        <scene sceneID="j4e-J5-wGE">
+            <objects>
+                <viewController id="wNu-Pt-S1D" customClass="ExchangeRateViewController" customModule="APIAwakens" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="FZj-2l-aA5"/>
+                        <viewControllerLayoutGuide type="bottom" id="cp0-XW-fV7"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="yKR-kB-YtB">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="12.0" borderStyle="bezel" textAlignment="center" clearsOnBeginEditing="YES" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="m0m-eF-Yy0">
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="Iyc-bF-08p"/>
+                                    <constraint firstAttribute="width" constant="120" id="KjX-7i-X4R"/>
+                                </constraints>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="24"/>
+                                <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
+                            </textField>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DTK-nV-Xli">
+                                <string key="text">Exchange Rate
+(Credits -&gt; USD)</string>
+                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="26"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="X6r-d4-eqE">
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="YdA-eE-aCt"/>
+                                    <constraint firstAttribute="width" constant="110" id="cNN-6F-Ppc"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="26"/>
+                                <state key="normal" title="Done">
+                                    <color key="titleColor" red="0.41568627450000001" green="0.76862745099999996" blue="0.99215686270000003" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="onDone" destination="wNu-Pt-S1D" eventType="touchUpInside" id="YJs-JN-oOo"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="m0m-eF-Yy0" firstAttribute="top" secondItem="DTK-nV-Xli" secondAttribute="bottom" constant="14" id="Dx2-KH-DDA"/>
+                            <constraint firstItem="X6r-d4-eqE" firstAttribute="centerX" secondItem="yKR-kB-YtB" secondAttribute="centerX" id="Fj8-IH-4Be"/>
+                            <constraint firstItem="m0m-eF-Yy0" firstAttribute="centerY" secondItem="yKR-kB-YtB" secondAttribute="centerY" id="KJR-G0-BXU"/>
+                            <constraint firstItem="DTK-nV-Xli" firstAttribute="centerX" secondItem="yKR-kB-YtB" secondAttribute="centerX" id="Q2W-6j-e7L"/>
+                            <constraint firstItem="m0m-eF-Yy0" firstAttribute="centerX" secondItem="yKR-kB-YtB" secondAttribute="centerX" id="WOO-eh-dbb"/>
+                            <constraint firstItem="X6r-d4-eqE" firstAttribute="top" secondItem="m0m-eF-Yy0" secondAttribute="bottom" constant="21" id="oh0-Tp-pA8"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="exchangeRate" destination="m0m-eF-Yy0" id="ylT-Fz-K8R"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="wbB-BF-bhT" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1709.5999999999999" y="127.28635682158921"/>
         </scene>
         <!--Split View Controller-->
         <scene sceneID="Nki-YV-4Qg">

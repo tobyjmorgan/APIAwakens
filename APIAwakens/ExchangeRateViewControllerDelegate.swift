@@ -1,17 +1,17 @@
 //
-//  DetailViewControllerDelegate.swift
+//  ExchangeRateViewControllerDelegate.swift
 //  APIAwakens
 //
-//  Created by redBred LLC on 12/3/16.
+//  Created by redBred LLC on 12/4/16.
 //  Copyright © 2016 redBred. All rights reserved.
 //
 
 import Foundation
 
-protocol DetailViewControllerDelegate {
-    
-    var currentEntityContext: EntityContext? { get }
+protocol ExchangeRateViewControllerDelegate {
     
     func getExchangeRate() -> Double
     func setExchangeRate(rate: Double)
+
+    func onDismissExchangeRateVC()
 }

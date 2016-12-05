@@ -29,6 +29,8 @@
 		6BA2BD5E1DF4B28800C41443 /* vehicle.wav in Resources */ = {isa = PBXBuildFile; fileRef = 6BA2BD5D1DF4B28800C41443 /* vehicle.wav */; };
 		6BA2BD601DF4B2A000C41443 /* CanPlaySound.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA2BD5F1DF4B2A000C41443 /* CanPlaySound.swift */; };
 		6BA2BD621DF4BBC400C41443 /* SoundManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA2BD611DF4BBC400C41443 /* SoundManager.swift */; };
+		6BA2BD641DF5187700C41443 /* ExchangeRateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA2BD631DF5187700C41443 /* ExchangeRateViewController.swift */; };
+		6BA2BD661DF5188E00C41443 /* ExchangeRateViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA2BD651DF5188E00C41443 /* ExchangeRateViewControllerDelegate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -77,6 +79,8 @@
 		6BA2BD5D1DF4B28800C41443 /* vehicle.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = vehicle.wav; sourceTree = "<group>"; };
 		6BA2BD5F1DF4B2A000C41443 /* CanPlaySound.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CanPlaySound.swift; sourceTree = "<group>"; };
 		6BA2BD611DF4BBC400C41443 /* SoundManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SoundManager.swift; sourceTree = "<group>"; };
+		6BA2BD631DF5187700C41443 /* ExchangeRateViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExchangeRateViewController.swift; sourceTree = "<group>"; };
+		6BA2BD651DF5188E00C41443 /* ExchangeRateViewControllerDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExchangeRateViewControllerDelegate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -136,6 +140,8 @@
 				6BA2BD111DF376E900C41443 /* DetailViewControllerDelegate.swift */,
 				6B39F14B1DF333FD00150396 /* DetailViewController.swift */,
 				6BA2BD0D1DF352D200C41443 /* DetailCell.swift */,
+				6BA2BD651DF5188E00C41443 /* ExchangeRateViewControllerDelegate.swift */,
+				6BA2BD631DF5187700C41443 /* ExchangeRateViewController.swift */,
 				6B39F14D1DF333FD00150396 /* Main.storyboard */,
 				6B39F1501DF333FD00150396 /* Assets.xcassets */,
 				6B39F1521DF333FD00150396 /* LaunchScreen.storyboard */,
@@ -348,11 +354,13 @@
 				6BA2BD551DF3DB1D00C41443 /* StarWarsAPIClient.swift in Sources */,
 				6B39F1791DF3346A00150396 /* EntityContext.swift in Sources */,
 				6BA2BD621DF4BBC400C41443 /* SoundManager.swift in Sources */,
+				6BA2BD641DF5187700C41443 /* ExchangeRateViewController.swift in Sources */,
 				6B39F14C1DF333FD00150396 /* DetailViewController.swift in Sources */,
 				6BA2BD121DF376E900C41443 /* DetailViewControllerDelegate.swift in Sources */,
 				6BA2BD531DF3DB0800C41443 /* APIClient.swift in Sources */,
 				6B39F14A1DF333FD00150396 /* EntityContextListController.swift in Sources */,
 				6B39F1481DF333FD00150396 /* AppDelegate.swift in Sources */,
+				6BA2BD661DF5188E00C41443 /* ExchangeRateViewControllerDelegate.swift in Sources */,
 				6BA2BD0E1DF352D200C41443 /* DetailCell.swift in Sources */,
 				6B39F17C1DF3357400150396 /* HasAssociatedIcon.swift in Sources */,
 				6BA2BD101DF36A8B00C41443 /* ContentKey.swift in Sources */,
